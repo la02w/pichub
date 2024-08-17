@@ -13,13 +13,13 @@ func main() {
 	router := gin.Default()
 	router.Static("/i", "./upload")
 	router.Static("/static", "./static")
-	// router.Use(middleware.Cors())
 	router.GET("/", func(c *gin.Context) {
 		// 将index.html作为响应发送
 		c.File("./static/index.html")
 	})
 	router.MaxMultipartMemory = 8 << 20 // 8 MiB
 	router.POST("/upload", func(c *gin.Context) {
+		fullURL := getHost(c.Request)
 		// 指定基础的文件夹路径
 		basePath := "./upload/"
 		file, _ := c.FormFile("file")
@@ -31,11 +31,19 @@ func main() {
 		c.SaveUploadedFile(file, uploadPath)
 		c.JSON(http.StatusOK, gin.H{
 			"status": 200,
-			// https://pic.la02.cc/i/2024/08/16/1723794210.png
-			"imageUrl": filepath.Join("https://pic.la02.cc/i/", filePath),
+			// https://xxx.xx/i/2024/08/16/1723794210.png
+			"imageUrl": filepath.Join(fullURL+"/i/", filePath),
 		})
 	})
 	router.Run(":2356")
+}
+func getHost(request *http.Request) string {
+	scheme := "http"
+	if request.TLS != nil {
+		scheme = "https"
+	}
+	host := request.Host
+	return scheme + "://" + host
 }
 func createFilePath(filename string) string {
 	now := time.Now()
