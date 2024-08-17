@@ -1,4 +1,5 @@
 pichub
 pichub.exe
 upload
+build/
 push.sh
