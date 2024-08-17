@@ -4,7 +4,7 @@ const ball = document.querySelector(".ball");
 const filledBall = document.querySelector(".filled-ball");
 const hand = document.querySelector(".hand");
 const reader = new FileReader();
-const baseurl = "http://127.0.0.1:2356/upload";
+const baseurl = window.location.protocol + "/upload";
 const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
   const k = 1024;
