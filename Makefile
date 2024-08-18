@@ -1,7 +1,7 @@
 .PHONY: build clean
 
 build:
-	@export version=v1.0.0
+	@export version="v1.0.0"
 	@mkdir -p build/pichub/static
 	@cp -r static/* build/pichub/static
 	@GOOS=linux GOARCH=amd64 go build -o build/pichub/pichub
