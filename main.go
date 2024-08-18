@@ -32,7 +32,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{
 			"status": 200,
 			// https://xxx.xx/i/2024/08/16/1723794210.png
-			"imageUrl": filepath.Join(fullURL+"/i/", filePath),
+			"imageUrl": fullURL + "/i/" + filePath,
 		})
 	})
 	router.Run(":2356")
