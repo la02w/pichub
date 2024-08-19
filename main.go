@@ -51,6 +51,6 @@ func createFilePath(filename string) string {
 	month := now.Format("01")
 	day := now.Format("02")
 	timestamp := now.Unix()
-	datePath := filepath.Join(year, month, day) + "/"
+	datePath := year + "/" + month + "/" + day + "/"
 	return datePath + strconv.Itoa(int(timestamp)) + filepath.Ext(filename)
 }
