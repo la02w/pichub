@@ -7,7 +7,7 @@
 }
 
 body {
-    background-image: url("https://pic.la02.cc/static/img/5.jpg");
+    background-image: url("/static/img/5.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -203,13 +203,13 @@ img:before {
 }
 
 .item-url:before {
-    background-image: url("https://pic.la02.cc/static/img/url.png");
+    background-image: url("/static/img/url.png");
     background-size: 100%;
     margin-left: 10px;
 }
 
 .item-url:hover:before {
-    background-image: url("https://pic.la02.cc/static/img/url.png");
+    background-image: url("/static/img/url.png");
 }
 
 .item-url:after {
