@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"path/filepath"
+	"pichub/middleware"
 	"strconv"
 	"time"
 
@@ -13,6 +14,7 @@ func main() {
 	router := gin.Default()
 	router.Static("/i", "./upload")
 	router.Static("/static", "./static")
+	router.Use(middleware.Cors())
 	router.GET("/", func(c *gin.Context) {
 		// 将index.html作为响应发送
 		c.File("./static/index.html")
