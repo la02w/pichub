@@ -1,0 +1,64 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.23"
+
+      - name: Set tag name as an environment variable
+        run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/})" | tee -a $GITHUB_ENV
+
+      - name: Build
+        run: |
+          mkdir -p build/pichub/static
+          cp -r static/* build/pichub/static
+          GOOS=linux GOARCH=amd64 go build -o build/pichub/pichub
+          GOOS=windows GOARCH=amd64 go build -o build/pichub/pichub.exe
+          cd build && zip -rq pichub-windows-amd64-${VERSION}.zip pichub/static/ pichub/pichub.exe  > /dev/null && cd ..
+          tar -czf build/pichub-linux-amd64-${VERSION}.tar.gz -C build/ pichub/static/ pichub/pichub
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: TODO New Release.
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset (zip)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/pichub-windows-amd64-${{ env.VERSION }}.zip
+          asset_name: pichub-windows-amd64-${{ env.VERSION }}.zip
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset (tar.gz)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/pichub-linux-amd64-${{ env.VERSION }}.tar.gz
+          asset_name: pichub-linux-amd64-${{ env.VERSION }}.tar.gz
+          asset_content_type: application/gzip
