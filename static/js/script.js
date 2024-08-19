@@ -144,8 +144,8 @@ const itemMarkup = (file, url, x, y) => {
       },
       {
         duration: 0.3,
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         x: x - 30,
         y: y - 30,
       }
@@ -257,7 +257,7 @@ inputObj.onchange = function () {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = function (e) {
-      itemMarkup(file, e.target.result, 50, 50);
+      itemMarkup(file, e.target.result, 50, 45);
     };
   }
 };
