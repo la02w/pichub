@@ -6,6 +6,64 @@
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
   <body>
+    <dialog id="linkDialog">
+      <div class="window">
+        <div class="title">链接</div>
+        <ul>
+          <li>
+            <div class="li-div hover:border-primary space-y-2">
+              <div class="li-text space-y-2">
+                <span class="font-semibold">URL</span>
+                <span class="break-all" id="baseurl"></span>
+              </div>
+              <div>
+                <button
+                  class="copy-btn"
+                  type="button"
+                  onclick="copyUrl(document.getElementById('baseurl'))"
+                >
+                  <span class="btn-content">复制</span>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="li-div hover:border-primary space-y-2">
+              <div class="li-text space-y-2">
+                <span class="font-semibold">MarkDown</span>
+                <span class="break-all" id="mdurl"></span>
+              </div>
+              <div>
+                <button
+                  class="copy-btn"
+                  type="button"
+                  onclick="copyUrl(document.getElementById('mdurl'))"
+                >
+                  <span class="btn-content">复制</span>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="li-div hover:border-primary space-y-2">
+              <div class="li-text space-y-2">
+                <span class="font-semibold">HTML</span>
+                <span class="break-all" id="htmlurl"></span>
+              </div>
+              <div>
+                <button
+                  class="copy-btn"
+                  type="button"
+                  onclick="copyUrl(document.getElementById('htmlurl'))"
+                >
+                  <span class="btn-content">复制</span>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </dialog>
     <input
       id="_ef"
       type="file"

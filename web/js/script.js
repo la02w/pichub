@@ -84,7 +84,7 @@ const itemMarkup = (file, url, x, y) => {
     file.name
   }</div><div class="item-size">SIZE:${formatBytes(
     file.size
-  )}</div></div><button class="item-delete"data-id="${id}"></button><button class="item-delete item-url"id="${id}iAjue"onclick="copyToClipboard(this)">复制</button>`;
+  )}</div></div><button class="item-delete"data-id="${id}"></button><button class="item-delete item-url"id="${id}iAjue"onclick="openDialog(this)">复制</button>`;
   list.append(item);
   const itemDeleteBtn = item.querySelector(".item-delete");
   itemDeleteBtn.addEventListener("click", (e) => {
@@ -273,30 +273,15 @@ function ajax(url, data, fn) {
   xhr.open("post", url, true);
   xhr.send(formData);
 }
-function copyToClipboard(agr) {
+function openDialog(agr) {
+  document.getElementById("linkDialog").showModal();
   var text = document.getElementById(agr.id).getAttribute("data-url");
-  var textArea = document.createElement("textarea");
-  textArea.style.position = "fixed";
-  textArea.style.top = "0";
-  textArea.style.left = "0";
-  textArea.style.width = "2em";
-  textArea.style.height = "2em";
-  textArea.style.padding = "0";
-  textArea.style.border = "none";
-  textArea.style.outline = "none";
-  textArea.style.boxShadow = "none";
-  textArea.style.background = "transparent";
-  textArea.value = text;
-  document.body.appendChild(textArea);
-  textArea.select();
-  try {
-    var successful = document.execCommand("copy");
-    var msg = successful
-      ? "成功复制到剪贴板"
-      : "该浏览器不支持点击复制到剪贴板";
-    alert(msg);
-  } catch (err) {
-    alert("该浏览器不支持点击复制到剪贴板");
-  }
-  document.body.removeChild(textArea);
+  document.getElementById("baseurl").textContent = text;
+  document.getElementById("mdurl").textContent = "![image](" + text + ")";
+  document.getElementById("htmlurl").textContent =
+    '<img src="' + text + '" alt="">';
+}
+function copyUrl(url) {
+  document.getElementById("linkDialog").close();
+  navigator.clipboard.writeText(url.textContent);
 }
