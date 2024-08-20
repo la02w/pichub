@@ -285,3 +285,22 @@ function copyUrl(url) {
   document.getElementById("linkDialog").close();
   navigator.clipboard.writeText(url.textContent);
 }
+document.addEventListener("paste", function (e) {
+  var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+  for (var index in items) {
+    var item = items[index];
+    if (item.kind === "file") {
+      var file = item.getAsFile();
+      if (window.FileReader) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          // event.target.result 包含了文件的内容，作为DataURL
+          var dataUrl = event.target.result;
+          // 现在你可以使用 dataUrl 来显示图片或进行其他操作
+          itemMarkup(file, dataUrl, 50, 45);
+        };
+        reader.readAsDataURL(file); // 读取文件内容为DataURL
+      }
+    }
+  }
+});
