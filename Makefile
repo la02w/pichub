@@ -1,13 +1,14 @@
 .PHONY: build clean
 
 build:
-	@export version="v1.0.0"
-	@mkdir -p build/pichub/static
-	@cp -r static/* build/pichub/static
+	@make clean
+	@mkdir -p build/pichub/web
+	@cp -r web/* build/pichub/web
+	@cp -r config/ build/pichub
 	@GOOS=linux GOARCH=amd64 go build -o build/pichub/pichub
 	@GOOS=windows GOARCH=amd64 go build -o build/pichub/pichub.exe
-	@cd build && zip -rq pichub-windows-amd64-${version}.zip pichub/static/ pichub/pichub.exe  > /dev/null && cd ..
-	@tar -czf build/pichub-linux-amd64-${version}.tar.gz -C build/ pichub/static/ pichub/pichub
+	@cd build && zip -rq pichub-windows-amd64.zip pichub/web/ pichub/config/ pichub/pichub.exe  > /dev/null && cd ..
+	@tar -czf build/pichub-linux-amd64.tar.gz -C build/ pichub/web/ pichub/config/ pichub/pichub
 	@rm -rf build/pichub
 	@unset version
 
