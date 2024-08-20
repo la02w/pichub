@@ -29,16 +29,26 @@ func main() {
 	router.MaxMultipartMemory = 8 << 20 // 8 MiB
 	router.POST("/upload", func(c *gin.Context) {
 		file, _ := c.FormFile("file")
-		url := ""
-		switch {
-		case utils.PICK_SERVICE == "local":
-			url = localUpload(utils.LOCAL_BASE_FOLDER, file, c)
-		case utils.PICK_SERVICE == "tencent":
-			url = cosUpload(file.Filename, file)
+		code := 415
+		msg := "抱歉,您上传的数据,格式不支持！"
+		contentType := file.Header.Get("Content-Type")
+		allowedMimeTypes := []string{"image/jpeg", "image/png", "image/gif", "image/bmp"}
+		for _, mime := range allowedMimeTypes {
+			if contentType == mime {
+				switch {
+				case utils.PICK_SERVICE == "local":
+					msg = localUpload(utils.LOCAL_BASE_FOLDER, file, c)
+				case utils.PICK_SERVICE == "tencent":
+					msg = cosUpload(file.Filename, file)
+				}
+				code = 200
+				break
+			}
 		}
+
 		c.JSON(http.StatusOK, gin.H{
-			"status":   200,
-			"imageUrl": url,
+			"status": code,
+			"msg":    msg,
 		})
 	})
 	router.Run(utils.SERVER_PORT)

@@ -116,7 +116,7 @@ const itemMarkup = (file, url, x, y) => {
     console.log(data);
     if (data.status == 200) {
       const itemurlBtn = item.querySelector(".item-url");
-      itemurlBtn.setAttribute("data-url", data.imageUrl);
+      itemurlBtn.setAttribute("data-url", data.msg);
       itemurlBtn.addEventListener(
         "click",
         function (e) {
