@@ -41,7 +41,7 @@ func main() {
 			"imageUrl": url,
 		})
 	})
-	router.Run(":2356")
+	router.Run(utils.SERVER_PORT)
 }
 
 func getHost(request *http.Request) string {

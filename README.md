@@ -21,3 +21,16 @@ make build
 # 清除build文件夹，也可以使用rm -rf build/
 make clean
 ```
+
+## 使用方法
+
+进入 config/ 配置 config.ini 文件
+
+| 配置项                | 描述             | 值                |
+| --------------------- | ---------------- | ----------------- |
+| PICK_SERVICE          | 选择服务项       | "local"&"tencent" |
+| SERVER_PORT           | 服务端口         | ":2356"           |
+| LOCAL_BASE_FOLDER     | 本地路径         | "./upload/"       |
+| TENCENT_COS_URL       | 用户存储桶和地区 | null              |
+| TENCENT_COS_SECRETID  | SECRETID         | null              |
+| TENCENT_COS_SECRETKEY | SECRETKEY        | null              |

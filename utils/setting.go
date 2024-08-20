@@ -12,6 +12,7 @@ var (
 	TENCENT_COS_SECRETID  string
 	TENCENT_COS_SECRETKEY string
 	PICK_SERVICE          string
+	SERVER_PORT           string
 )
 
 func init() {
@@ -19,9 +20,13 @@ func init() {
 	if err != nil {
 		fmt.Println("配置文件读取错误，请检查文件路径:", err)
 	}
-	PICK_SERVICE = file.Section("base").Key("PICK_SERVICE").MustString("local")
+	LoadOther(file)
 	LoadLocal(file)
 	LoadTencent(file)
+}
+func LoadOther(file *ini.File) {
+	PICK_SERVICE = file.Section("base").Key("PICK_SERVICE").MustString("local")
+	SERVER_PORT = file.Section("server").Key("SERVER_PORT").MustString(":2356")
 }
 
 func LoadLocal(file *ini.File) {
