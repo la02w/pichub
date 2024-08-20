@@ -24,12 +24,13 @@ jobs:
 
       - name: Build
         run: |
-          mkdir -p build/pichub/static
-          cp -r static/* build/pichub/static
+          mkdir -p build/pichub/
+          cp -r web/ build/pichub/
+          cp -r config/ build/pichub/
           GOOS=linux GOARCH=amd64 go build -o build/pichub/pichub
           GOOS=windows GOARCH=amd64 go build -o build/pichub/pichub.exe
-          cd build && zip -rq pichub-windows-amd64-${VERSION}.zip pichub/static/ pichub/pichub.exe  > /dev/null && cd ..
-          tar -czf build/pichub-linux-amd64-${VERSION}.tar.gz -C build/ pichub/static/ pichub/pichub
+          cd build && zip -rq pichub-windows-amd64-${VERSION}.zip pichub/web/ pichub/config/ pichub/pichub.exe  > /dev/null && cd ..
+          tar -czf build/pichub-linux-amd64-${VERSION}.tar.gz -C build/ pichub/web/ pichub/config/ pichub/pichub
 
       - name: Create Release
         id: create_release
