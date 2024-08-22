@@ -271,7 +271,7 @@ img:before {
   font-family: Arial, sans-serif;
   border: 1px solid #ccc;
   width: 500px;
-  height: 270px;
+  height: auto;
   padding: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   margin: auto;

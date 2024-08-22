@@ -3,3 +3,4 @@ pichub.exe
 upload
 build/
 push.sh
+db/

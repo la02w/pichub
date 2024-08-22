@@ -4,7 +4,7 @@ const ball = document.querySelector(".ball");
 const filledBall = document.querySelector(".filled-ball");
 const hand = document.querySelector(".hand");
 const reader = new FileReader();
-const baseurl = window.location.protocol + "/upload";
+const baseurl = window.location.protocol + "/api/v1/upload";
 const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
   const k = 1024;
@@ -114,9 +114,20 @@ const itemMarkup = (file, url, x, y) => {
   ajax(baseurl, file, function (data) {
     data = JSON.parse(data);
     console.log(data);
-    if (data.status == 200) {
+    if (data.code == 200) {
       const itemurlBtn = item.querySelector(".item-url");
-      itemurlBtn.setAttribute("data-url", data.msg);
+      itemurlBtn.setAttribute("data-url", data.url);
+      itemurlBtn.addEventListener(
+        "click",
+        function (e) {
+          e.stopPropagation();
+        },
+        false
+      );
+    } else if (data.code == 409) {
+      alert(data.msg);
+      const itemurlBtn = item.querySelector(".item-url");
+      itemurlBtn.setAttribute("data-url", data.url);
       itemurlBtn.addEventListener(
         "click",
         function (e) {
