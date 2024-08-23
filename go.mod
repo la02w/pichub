@@ -43,6 +43,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.2 // indirect
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	gopkg.in/ini.v1 v1.67.0
 	gorm.io/gorm v1.22.3
 )

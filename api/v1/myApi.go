@@ -1,12 +1,17 @@
 package v1
 
 import (
+	"bytes"
+	"image"
+	"image/jpeg"
+	"image/png"
 	"net/http"
 	"pichub/model"
 	"pichub/utils"
 	"pichub/utils/errmsg"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nfnt/resize"
 )
 
 func UploadImage(c *gin.Context) {
@@ -29,5 +34,25 @@ func UploadImage(c *gin.Context) {
 func GetImage(c *gin.Context) {
 	md5 := c.Param("md5")
 	data := model.GetImageData(md5)
+	if data.Size > 1048576 && data.Type == "image/jpeg" || data.Type == "image/png" {
+		img, _, err := image.Decode(bytes.NewReader(data.Data))
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		thumbnail := resize.Thumbnail(200, 200, img, resize.Lanczos3)
+		var buf bytes.Buffer
+		if data.Type == "image/jpeg" {
+			err = jpeg.Encode(&buf, thumbnail, nil)
+		}
+		if data.Type == "image/png" {
+			err = png.Encode(&buf, thumbnail)
+		}
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.Data(http.StatusOK, data.Type, buf.Bytes())
+	}
 	c.Data(http.StatusOK, data.Type, data.Data)
 }

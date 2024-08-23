@@ -11,8 +11,9 @@ import (
 
 type ImageInfo struct {
 	gorm.Model
-	MD5  string `gorm:"type:varchat(100);unique"`
-	Type string `gorm:"type:varchat(100)"`
+	MD5  string `gorm:"type:varchat(50);unique"`
+	Type string `gorm:"type:varchat(20)"`
+	Size int64  `gorm:"type:varchat(20)"`
 	Data []byte `gorm:"type:blob"`
 }
 
@@ -28,6 +29,7 @@ func UploadImage(file *multipart.FileHeader) (int, string) {
 		MD5:  md5,
 		Type: file.Header.Get("Content-Type"),
 		Data: fileBytes,
+		Size: file.Size,
 	}
 	if err := db.Create(&imageinfo).Error; err != nil {
 		return errmsg.ERROR_IMAGE_EXIST, imageinfo.MD5
