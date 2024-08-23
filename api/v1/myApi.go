@@ -29,5 +29,5 @@ func UploadImage(c *gin.Context) {
 func GetImage(c *gin.Context) {
 	md5 := c.Param("md5")
 	data := model.GetImageData(md5)
-	c.Data(http.StatusOK, "image/png", data.Data)
+	c.Data(http.StatusOK, data.Type, data.Data)
 }
