@@ -50,6 +50,7 @@ func main() {
 	router.Run(utils.SERVER_PORT)
 }
 
+// 获取URL
 func getHost(request *http.Request) string {
 	scheme := "http"
 	if request.TLS != nil {
@@ -59,6 +60,7 @@ func getHost(request *http.Request) string {
 	return scheme + "://" + host
 }
 
+// 根据上传日期创建保存路径，文件名为时间戳
 func createFilePath(filename string) string {
 	now := time.Now()
 	year := now.Format("2006")
@@ -69,6 +71,7 @@ func createFilePath(filename string) string {
 	return datePath + strconv.Itoa(int(timestamp)) + filepath.Ext(filename)
 }
 
+// 腾讯COS对象存储上传方法
 func cosUpload(filename string, file *multipart.FileHeader) string {
 	u, _ := url.Parse(utils.TENCENT_COS_URL)
 	b := &cos.BaseURL{BucketURL: u}
@@ -89,6 +92,7 @@ func cosUpload(filename string, file *multipart.FileHeader) string {
 
 }
 
+// 本地上传方法
 func localUpload(basePath string, file *multipart.FileHeader, c *gin.Context) string { // 指定basePath基础的文件夹路径
 	fullURL := getHost(c.Request)
 	filePath := createFilePath(file.Filename) // 2024/08/16/1723794210.png
